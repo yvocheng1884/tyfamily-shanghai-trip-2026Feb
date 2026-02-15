@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>2026 桃園第一家上海過年自由行</title>
     <style>
-        /* --- 基礎設定 (Desktop First) --- */
+        /* --- 基礎設定 --- */
         body {
             font-family: "Microsoft JhengHei", Arial, sans-serif;
             line-height: 1.6;
@@ -31,30 +31,27 @@
             border-radius: 8px;
             margin-bottom: 30px;
         }
+
+        /* 飯店資訊區塊：背景淺灰 */
+        .hotel-info-box {
+            background-color: #F7F7F7;
+            border: 1px solid #ddd;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            border-left: 1px solid #ddd;
+        }
+
         ul { padding-left: 20px; }
         li { margin-bottom: 5px; }
         .booking-highlight { color: #d35400; font-weight: bold; }
 
-        /* --- 地圖區域設定 --- */
-        .map-section {
-            text-align: center;
-            margin: 30px 0;
-            background: #eee;
-            padding: 20px;
-            border-radius: 10px;
-        }
-        .map-image {
-            max-width: 100%;
-            height: auto;
-            border-radius: 8px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-        }
-
-        /* --- 表格設定 (PC版) --- */
+        /* 表格通用設定 */
         table {
             width: 100%;
             border-collapse: collapse;
             margin: 20px 0;
+            background-color: #ffffff; /* 表格底色白色 */
         }
         th, td {
             border: 1px solid #ddd;
@@ -63,15 +60,15 @@
             vertical-align: top;
         }
         th { background-color: #f8f9fa; font-weight: bold; }
+
+        /* 每日行程表日期欄 */
         .date-col {
             width: 15%;
-            font-size: 0.9em;
-            font-weight: bold;
-            text-align: center;
-            color: #c0392b;
+            text-align: left;
+            color: #000000;
         }
 
-        /* --- 景點圖庫設定 --- */
+        /* 景點圖庫 */
         .gallery {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -96,62 +93,36 @@
             margin: 0;
             padding: 10px;
             font-weight: bold;
-            font-size: 0.95em;
-            color: #444;
             background-color: #fafafa;
         }
 
-        /* --- 📱 手機版響應式設計 (Media Queries) --- */
+        /* --- 📱 響應式設計 (Responsive) --- */
         @media screen and (max-width: 768px) {
             body { padding: 10px; }
             .container { padding: 15px; }
             
-            /* 強制表格變成卡片模式 */
-            table, thead, tbody, th, td, tr { 
-                display: block; 
-            }
+            /* 表格轉卡片模式 */
+            table, thead, tbody, th, td, tr { display: block; }
+            thead tr { position: absolute; top: -9999px; left: -9999px; }
+            tr { margin-bottom: 15px; border: 1px solid #ddd; border-radius: 8px; background: #fff; }
+            td { border: none; border-bottom: 1px solid #eee; position: relative; padding-left: 35% !important; width: auto !important; }
             
-            /* 隱藏表格標題列 */
-            thead tr { 
+            /* 加上手機版標籤 */
+            td:before {
                 position: absolute;
-                top: -9999px;
-                left: -9999px;
-            }
-            
-            tr { 
-                margin-bottom: 20px; 
-                border: 1px solid #ddd; 
-                border-radius: 8px; 
-                box-shadow: 0 2px 5px rgba(0,0,0,0.05); 
-                overflow: hidden; /* 確保圓角不被內容切掉 */
-            }
-            
-            td { 
-                border: none;
-                border-bottom: 1px solid #eee; 
-                position: relative;
-                padding-left: 15px; 
-            }
-            
-            /* 日期欄位在手機上變成卡片標題 */
-            .date-col {
-                width: 100%;
-                text-align: left;
-                background-color: #ffebee; /* 淺紅色背景 */
-                color: #c0392b;
-                font-size: 1.1em;
-                padding: 10px 15px;
-                border-bottom: 2px solid #ffcdd2;
-                box-sizing: border-box; /* 確保寬度計算正確 */
+                left: 10px;
+                width: 30%;
+                font-weight: bold;
+                color: #7f8c8d;
+                content: attr(data-label);
             }
 
-            /* 最後一個格子不要底線 */
-            td:last-child { border-bottom: none; }
-
-            /* 調整手機上的字體大小 */
-            h1 { font-size: 1.5em; }
-            h2 { font-size: 1.2em; margin-top: 20px; }
-            .gallery-item p { font-size: 0.9em; }
+            .date-col { 
+                background-color: #ffebee; 
+                text-align: left; 
+                padding-left: 15px !important; 
+            }
+            .date-col:before { content: ""; }
         }
     </style>
 </head>
@@ -164,13 +135,11 @@
     <div class="todo-box">
         <h2>📑 待辦事項與重要預約</h2>
         <ul>
-            <li>訂購上海機場接送</li>
-            <li>事先加入南方航空會員，<span class="booking-highlight">2/16 18:05</span> 開放選位</li>
+            <li>航空公司<span class="booking-highlight">2/16 18:05</span> 開放選位 </li>
             <li>準備 Esim/實體 Sim 卡及旅遊平安險</li>
             <li><strong>餐廳訂位：</strong>
                 <ul>
-                    <li>銘門盛宴：電話訂位 02163668868</li>
-                    <li>肉串汪 (外灘店)：021-66058557</li>
+                    <li><a href="https://surl.amap.com/euHKOay1ads6" target="_blank" style="color: #3498db;">四季民福烤鸭店</a> 當天下午4點半微信線上取號</li>
                 </ul>
             </li>
             <li><strong>景點預約：</strong>
@@ -179,12 +148,59 @@
                     <li>LV 巨輪內部參觀：電話預約 (一人一約)</li>
                 </ul>
             </li>
+            <li><strong>APP下載：</strong>
+                <ul>
+                    <li>高德地圖、微信、支付寶、大眾點評、美團</li>
+                </ul>
+            </li>
         </ul>
     </div>
 
-    <div class="map-section">
-        <h3>📍上海旅遊分佈參考地圖</h3>
-        <img src="shanghai_map.jpg" class="map-image" alt="上海觀光地圖">
+    <div class="hotel-info-box">
+        <h2>🏨 飯店入住資訊</h2>
+        <p><strong>飯店名稱：</strong><a href="https://www.amap.com/search?query=萬和至臻飯店(上海日月光打浦橋地鐵站店)" target="_blank" style="color: #2980b9; text-decoration: none;">萬和至臻飯店 (上海日月光打浦橋地鐵站店)</a> </p>
+        <p><strong>飯店地址：</strong>上海市黃浦區徐家匯路679-1號 </p>
+        <p><strong>入住日期：</strong>2026/02/18 (週三) 14:00後 </p>
+        <p><strong>退房日期：</strong>2026/02/22 (週日) 12:00前 </p>
+        <p><strong>房間設施：</strong>牙刷、牙膏、沐浴乳、洗髮乳、皂、浴帽、梳子、刮鬍刀、吹風機、毛巾、浴巾、拖鞋 </p>
+        <hr style="border: 0; border-top: 1px solid #ddd;">
+        
+        <table>
+            <thead>
+                <tr>
+                    <th style="width: 10%;">編號</th>
+                    <th style="width: 45%;">預訂房型</th>
+                    <th style="width: 10%;">入住人數</th>
+                    <th>床型</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td data-label="編號" style="font-weight: bold;">Room 1</td>
+                    <td data-label="預訂房型" style="color: #000000">豪華家庭房（巨幕影院 + 無線投屏）</td>
+                    <td data-label="入住人數">2 位 </td>
+                    <td data-label="床型">1張大床（1.8公尺寬） 和 1張單人床（1.2公尺寬）</td>
+                </tr>
+                <tr>
+                    <td data-label="編號" style="font-weight: bold;">Room 2</td>
+                    <td data-label="預訂房型" style="color: #000000">高級雙床房 </td>
+                    <td data-label="入住人數">2 位 </td>
+                    <td data-label="床型">2張單人床</td>
+                </tr>
+                <tr>
+                    <td data-label="編號" style="font-weight: bold;">Room 3</td>
+                    <td data-label="預訂房型" style="color: #000000">高級大床房 </td>
+                    <td data-label="入住人數">2 位 </td>
+                    <td data-label="床型">1張大床 </td>
+                </tr>
+                <tr>
+                    <td data-label="編號" style="font-weight: bold;">Room 4</td>
+                    <td data-label="預訂房型" style="color: #000000">高級大床房 </td>
+                    <td data-label="入住人數">2 位 </td>
+                    <td data-label="床型">1張大床 </td>
+                </tr>
+            </tbody>
+        </table>
     </div>
 
     <h2>🗓️ 每日行程安排表</h2>
@@ -199,43 +215,28 @@
         <tbody>
             <tr>
                 <td class="date-col">2/18 (三)</td>
-                <td>
-                    南方航空 (18:05~20:05) 抵達上海，飯店入住
-                    <br>• 安排浦東機場接機至飯店
-                </td>
-                <td>萬和至臻飯店 (日月光店)</td>
+                <td data-label="行程內容">南方航空 (18:05~20:05) 抵達上海，飯店入住<br>• 安排浦東機場接機至飯店 </td>
+                <td data-label="備註">萬和至臻飯店 (日月光店) </td>
             </tr>
             <tr>
                 <td class="date-col">2/19 (四)</td>
-                <td>
-                    朱家角古鎮 (搭船進入) → 散步外灘 → <strong>乍浦路橋 (外灘燈光秀絕美視角)</strong> → 外白渡橋 → 黃浦江遊船
-                </td>
-                <td>
-                    晚餐：肉串汪 (外灘店)
-                </td>
+                <td data-label="行程內容">朱家角古鎮 (搭船進入) → 散步外灘 → 乍浦路橋 (外灘燈光秀絕美視角)→ 外白渡橋 → 黃浦江遊船</td>
+                <td data-label="備註">晚餐：肉串汪 (外灘店)</td>
             </tr>
             <tr>
                 <td class="date-col">2/20 (五)</td>
-                <td>
-                    南京東路步行街 → 北外灘 → 泰公線渡輪 → 陸家嘴天際線 (手扶梯三件套) → <strong>朵雲書院 (52層天空之城)</strong> → 魔都三件套拍照 → 浦東美術館 (日落) → 豫園商城燈會
-                </td>
-                <td>
-                    午餐：滬西老弄堂麵館<br>晚餐：太二酸菜魚
-                </td>
+                <td data-label="行程內容">南京東路步行街 → 北外灘 → 泰公線渡輪 → 陸家嘴天際線 (手扶梯三件套) → 朵雲書院 (52層天空之城)→ 魔都三件套拍照 → 浦東美術館 (日落) → 豫園商城燈會</td>
+                <td data-label="備註">午餐：滬西老弄堂麵館<br>晚餐：太二酸菜魚</td>
             </tr>
             <tr>
                 <td class="date-col">2/21 (六)</td>
-                <td>
-                    南京西路站 (LV巨輪、星巴克烘焙工坊、張園) → 靜安寺拜拜 → 愚園路 (梧桐樹街、甜點) → 安福路 → <strong>武康大樓</strong>
-                </td>
-                <td>
-                    午餐：萊萊.喬愛小籠 (靜安里直營店)<br>晚餐：外婆家 (百聯徐匯店)
-                </td>
+                <td data-label="行程內容">南京西路站 (LV巨輪、星巴克烘焙工坊、張園) → 靜安寺拜拜 → 愚園路 (梧桐樹街、甜點) → 安福路 → 武康大樓</td>
+                <td data-label="備註">晚餐：外婆家 (百聯徐匯店)</td>
             </tr>
             <tr>
                 <td class="date-col">2/22 (日)</td>
-                <td>田子坊漫步 → 11:00 前往機場送機 → 14:35 起飛回台</td>
-                <td>機場送機準備</td>
+                <td data-label="行程內容">田子坊漫步 → 11:00 前往機場送機 → 14:35 起飛回台 </td>
+                <td data-label="備註">機場送機準備</td>
             </tr>
         </tbody>
     </table>
@@ -244,34 +245,30 @@
     <div class="gallery">
         <div class="gallery-item">
             <p>📍外灘與黃浦遊船夜景</p>
-            <img src="https://blog-static.kkday.com/zh-tw/blog/wp-content/uploads/China_Shanghai-_bund_AShutterstock_143281603.jpg" alt="外灘夜景">
+            <img src="https://blog-static.kkday.com/zh-tw/blog/wp-content/uploads/China_Shanghai-_bund_AShutterstock_143281603.jpg">
         </div>
         <div class="gallery-item">
             <p>📍陸家嘴天際線與魔都三件套</p>
-            <img src="https://ak-d.tripcdn.com/images/1mi2p12000mtjizvgC33D_W_640_0_R5_Q80.jpg?proc=source/trip" alt="陸家嘴天際線">
+            <img src="https://ak-d.tripcdn.com/images/1mi2p12000mtjizvgC33D_W_640_0_R5_Q80.jpg?proc=source/trip">
         </div>
         <div class="gallery-item">
             <p>📍朱家角古鎮水鄉</p>
-            <img src="https://image.kkday.com/v2/image/get/c_fill%2Ch_800%2Cq_55%2Ct_webp%2Cw_1240/s1.kkday.com/product_36398/20200118154109_cbfSK/jpg" alt="朱家角水鄉">
+            <img src="https://image.kkday.com/v2/image/get/c_fill%2Ch_800%2Cq_55%2Ct_webp%2Cw_1240/s1.kkday.com/product_36398/20200118154109_cbfSK/jpg">
         </div>
         <div class="gallery-item">
             <p>📍武康大樓歷史建築</p>
-            <img src="https://blog-static.kkday.com/zh-tw/blog/wp-content/uploads/shutterstock_1028335162.jpg" alt="武康大樓">
+            <img src="https://blog-static.kkday.com/zh-tw/blog/wp-content/uploads/shutterstock_1028335162.jpg">
         </div>
         <div class="gallery-item">
             <p>📍靜安寺金頂建築</p>
-            <img src="https://blog-static.kkday.com/zh-tw/blog/wp-content/uploads/shutterstock_1150768400.jpg" alt="靜安寺">
+            <img src="https://blog-static.kkday.com/zh-tw/blog/wp-content/uploads/shutterstock_1150768400.jpg">
         </div>
         <div class="gallery-item">
             <p>📍南京路步行街</p>
-            <img src="https://www.hlhbsc.org/upload/download/Spot_pic/Spot_picfile_000263_New.jpg" alt="南京路步行街">
+            <img src="https://www.hlhbsc.org/upload/download/Spot_pic/Spot_picfile_000263_New.jpg">
         </div>
     </div>
-
 </div>
 
 </body>
 </html>
-
-
-
